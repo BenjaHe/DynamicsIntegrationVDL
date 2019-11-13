@@ -1,0 +1,40 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h1 class="oe_slogan">Intégration du webshop avec Microsoft Dynamics</h1>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Architecture de l'intégration</h2>
+
+        <div class="oe_span12">
+            <p class="oe_mt32">
+               <p> Microsoft Dynamics n'accepte que les fichiers CSV et a besoin de champs spécifiques
+        qui n'existe pas dans Odoo (ref ou id spécifiques).</p>
+
+            <p>Le fonctionnement choisi est donc d'ajouter les champs nécessaire à Dynamics et d'exporter les données
+            à l'aide d'un job Talend qui ira lire directement dans la DB d'Odoo pour créer les tables nécessaires.</p>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Ajout de champs spécifiques</h2>
+        <h3 class="oe_slogan">Modèle "res.partner"</h3>
+        <div class="oe_span12">
+            <p class="oe_mt32">
+                Ajoute les champs suivant : <br>
+                 - blabla, <br>
+                 - blabla, <br>
+                 - blabla.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+
+
