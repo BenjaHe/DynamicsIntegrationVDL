@@ -33,3 +33,7 @@ class PurchaseOrderline(models.Model):
 
     dyn_purchid = fields.Integer(string="Champs PurchID dans Dynamics",
                                  required=False)
+
+    stage_id = fields.Many2one(
+        comodel_name="purchase.order.line.stage",
+    )

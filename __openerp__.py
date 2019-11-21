@@ -22,7 +22,10 @@
     'depends': ['base','stockVDL'],
 
     'data': [
-
+        'views/account_tax.xml',
+        'views/purchase_order_line_stage.xml',
+        'views/menu.xml',
+        'datas/purchase_order_line_stage.xml',
              ],
 
 }

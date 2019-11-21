@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_po_line_stage"
+
+          name="Line stage"
+          action="action_po_line_stage"
+          sequence="5"/>
+
+    </data>
+</openerp>

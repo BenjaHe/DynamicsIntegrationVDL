@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+  <data>
+      <record id="view_form_account_tax_inherited" model="ir.ui.view">
+          <field name="name">Account tax view</field>
+          <field name="model">account.tax</field>
+          <field name="inherit_id" ref="account.view_tax_form"/>
+          <field name="arch" type="xml">
+
+              <field name="name" position="after">
+                  <field name="dyn_taxgroup"/>
+                  <field name="dyn_taxitemgroup"/>
+              </field>
+
+          </field>
+      </record>
+
+  </data>
+</openerp>
+
+
