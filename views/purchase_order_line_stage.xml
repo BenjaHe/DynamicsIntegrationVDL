@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+  <data>
+
+      <act_window id="action_po_line_stage"
+	        name="Line stage"
+	        res_model="purchase.order.line.stage"
+	        view_mode="tree,form"
+            />
+
+  </data>
+</openerp>
