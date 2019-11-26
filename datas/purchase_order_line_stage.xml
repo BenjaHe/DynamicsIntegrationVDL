@@ -8,11 +8,11 @@
             <field name="po_state">draft</field>
         </record>  -->
 
-        <record id="purchase_order_line_stage_pending" model="purchase.order.line.stage">
+     <!--   <record id="purchase_order_line_stage_pending" model="purchase.order.line.stage">
             <field name="name">A synchroniser</field>
             <field name="dyn_status">odoo_pending</field>
             <field name="po_state">draft</field>
-        </record>
+        </record>  -->
     </data>
 </openerp>
 
