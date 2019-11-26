@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <openerp>
-    <data>
+  <!--  <data>
         <record id="purchase_order_line_stage_no_sync" model="purchase.order.line.stage">
             <field name="name">Sans synchro</field>
             <field name="dyn_status">odoo_no_sync</field>
@@ -13,7 +13,7 @@
             <field name="dyn_status">odoo_pending</field>
             <field name="po_state">draft</field>
         </record>
-    </data>
+    </data>  -->
 </openerp>
 
 
