@@ -3,8 +3,6 @@
 <openerp>
   <data>
 
-
-
       <act_window id="action_po_line_stage"
 	        name="Line stage"
 	        res_model="purchase.order.line.stage"
