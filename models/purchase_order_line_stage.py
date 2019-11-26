@@ -4,6 +4,7 @@
 from openerp import models, fields, api
 from openerp.exceptions import Warning
 
+
 # Statut spécifique Dyn. -> au quel on a ajouté deux statuts (pending et no_sync) pour "taguer" les PO
 # qu'il ne faut pas ou qu'il faut synchroniser (pour retenir les PO générés par les règles de réappro).
 # On a créé deux statuts Dyn en dur dans le code qui sont "odoo_pending" qui bloque les PO en draft
@@ -46,8 +47,7 @@ class PurchaseOrderLineStage(models.Model):
     def write(self, vals):
         for rec in self:
             if rec.dyn_status in ('odoo_pending', 'odoo_no_sync'):
-                raise Warning(
-                    "Vous ne pouvez pas modifier les deux premiers status")
+                raise Warning("Vous ne pouvez pas modifier les deux premiers status")
         return super(PurchaseOrderLineStage, self).write(vals)
 
     # On empèche de supprimer ou de unliker les deux statuts indispensables pour savoir si
