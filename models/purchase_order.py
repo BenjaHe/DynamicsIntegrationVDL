@@ -3,7 +3,6 @@
 
 from datetime import date, datetime, timedelta
 from openerp import models, fields, api, exceptions
-from openerp.addons.website_sale.models.product import product_public_category
 from openerp.exceptions import Warning
 
 class Purchase(models.Model):

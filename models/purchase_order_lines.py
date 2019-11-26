@@ -34,6 +34,9 @@ class PurchaseOrderline(models.Model):
     dyn_purchid = fields.Integer(string="Champs PurchID dans Dynamics",
                                  required=False)
 
+    # Statut spécifique Dyn. -> au quel on a ajouté deux statuts (pending et no_sync) pour "taguer" les PO
+    # qu'il ne faut pas ou qu'il faut synchroniser (pour retenir les PO générés par les règles de réappro).
+    # En lien avec purchase_order_line_stage qui configure les statuts Odoo VS Dyn
     stage_id = fields.Many2one(
         comodel_name="purchase.order.line.stage",
     )

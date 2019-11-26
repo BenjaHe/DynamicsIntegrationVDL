@@ -3,6 +3,10 @@
 <openerp>
   <data>
 
+      <!--  Menu et vue de configuration pour appairer les status Odoo et les statuts Dyn.
+          Pour rappel, on ne peut pas modifier les deux premiers statut (odoo_pending et
+          odoo_no_sync-->
+
       <act_window id="action_po_line_stage"
 	        name="Line stage"
 	        res_model="purchase.order.line.stage"
