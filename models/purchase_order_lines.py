@@ -13,13 +13,13 @@ class PurchaseOrderline(models.Model):
     # dyn_buyergroupid_id = fields.Char(related='order_id.dyn_buyergroupid_id',
     #                                    string="Comptable dans Dynamics",
     #                                    required=False)
-    dyn_taxgroup_id = fields.Char(related='product_id.dyn_taxgroup',
-                              string="Champs TaxGroup issu de Dynamics",
-                              required=False)
-
-    dyn_taxitemgroup_id = fields.Char(related='product_id.dyn_taxitemgroup',
-                               string="Champs TaxGroup issu de Dynamics",
-                               required=False)
+    # dyn_taxgroup_id = fields.Char(related='product_id.dyn_taxgroup',
+    #                               string="Champs TaxGroup issu de Dynamics",
+    #                               required=False)
+    #
+    # dyn_taxitemgroup_id = fields.Char(related='product_id.dyn_taxitemgroup',
+    #                                   string="Champs TaxGroup issu de Dynamics",
+    #                                   required=False)
 
     dyn_state = fields.Selection([('None', 'Brouillon'),
                                   ('Backorder', 'Bon de commande créé'),
