@@ -43,6 +43,12 @@ class Purchase(models.Model):
     def action_liberer(self):
         for po in self:
             po.order_line.action_line_liberer()
+            if po.state == 'draft':
+                # update du state de 'draft' à 'sent' pour que les nouvelles
+                # lignes de commandes ne soient plus ajouté à cette commande,
+                # mais qu'une nouvelle commande (avec dyn_liberer=False)
+                # soit générée par Odoo
+                po.state = 'sent'
         return True
 
     @api.depends('order_line', 'order_line.dyn_liberer')
@@ -50,16 +56,3 @@ class Purchase(models.Model):
         for po in self:
             po.dyn_liberer = any(dyn_liberer for dyn_liberer in
                                  po.order_line.mapped('dyn_liberer'))
-
-    def export_to_dynamics(self):
-        values = {'test': True}
-        domain = []
-        return values
-
-    def import_from_dynamics(self, values):
-        result = True
-        try:
-            pass
-        except:
-            result = False
-        return result

@@ -42,17 +42,31 @@ class PurchaseOrderline(models.Model):
             [('dyn_status', '=', 'odoo_pending')], limit=1)
         for line in self:
             if not line.dyn_liberer and line.stage_id and \
-                    line.stage_id.dyn_status == 'odoo_no_sync':
+                    line.stage_id.dyn_status in ('odoo_no_sync', 'odoo_pending'):
                 vals = {
                     'stage_id': pending_sync_status.id,
                     'dyn_liberer': True,
                 }
                 line.write(vals)
             else:
-                msg = "Ligne: {name}, "
+                msg = u"Ligne: {name}, ".format(name=line.name)
                 if line.dyn_liberer:
-                    msg += "déja libérée, "
-                msg += "état: {stage_id}"
-                msg.format(name=line.name, stage_id=line.stage_id)
+                    msg += u"déja libérée, "
+                if line.stage_id:
+                    msg += u"état: {stage_id}".format(
+                        stage_id=line.stage_id.name_get()[0][1])
                 line.order_id.message_post(body=msg)
         return True
+
+    def export_to_dynamics(self):
+        values = {'test': True}
+        domain = []
+        return values
+
+    def import_from_dynamics(self, values):
+        result = True
+        try:
+            pass
+        except:
+            result = False
+        return result
