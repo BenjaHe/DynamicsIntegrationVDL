@@ -28,6 +28,8 @@ class Purchase(models.Model):
     # --> il faut attendre que l'Economat donne son go une fois que le PO est suffisamment rempli.
     dyn_liberer = fields.Boolean(
         string="Peut être poussé vers Dynamics",
+        compute='_compute_dyn_liberer',
+        store=True
     )
 
     @api.model
@@ -40,15 +42,14 @@ class Purchase(models.Model):
     @api.multi
     def action_liberer(self):
         for po in self:
-            if not po.dyn_liberer:
-                vals = {
-                    'dyn_liberer': True,
-                }
-                po.write(vals)
-            else:
-                msg = "Commande déjà libérée"
-                po.message_post(body=msg)
+            po.order_line.action_line_liberer()
         return True
+
+    @api.depends('order_line', 'order_line.dyn_liberer')
+    def _compute_dyn_liberer(self):
+        for po in self:
+            po.dyn_liberer = any(dyn_liberer for dyn_liberer in
+                                 po.order_line.mapped('dyn_liberer'))
 
     def export_to_dynamics(self):
         values = {'test': True}

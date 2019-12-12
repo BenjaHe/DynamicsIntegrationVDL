@@ -5,12 +5,19 @@
       <record id="purchase_order_form" model="ir.ui.view">
           <field name="name">purchase liberation</field>
           <field name="model">purchase.order</field>
-          <field name="inherit_id" ref="purchase.purchase_order_form"/>
+          <field name="inherit_id" ref="stockVDL.purchase_order_form_inherited"/>
           <field name="arch" type="xml">
+              <field name="fournisseur_economat" position="after">
+                  <field name="dyn_liberer" readonly="True" groups="base.group_no_one"/>
+              </field>
               <xpath expr="//button[@name='button_done']" position="after">
                   <field name="dyn_liberer" invisible="True"/>
                   <button name="action_liberer" type="object" string="Libérer"
                           attrs="{'invisible':[('dyn_liberer', '=', True)]}" />
+              </xpath>
+              <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                  <field name="dyn_liberer" readonly="True" groups="base.group_no_one"/>
+                  <field name="stage_id" readonly="True" groups="base.group_no_one"/>
               </xpath>
           </field>
       </record>
