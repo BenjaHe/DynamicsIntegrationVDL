@@ -10,10 +10,10 @@ class ResPartner(models.Model):
     _inherit = ['res.partner']
 
     # Champs Dynamics qui donne les références Dyn du fournisseur
-    dyn_buyergroupid = fields.Char(string='Numéro du comptable dans Dynamics',
-                                   required=False,
-                                   track_visibility='onchange',
-                                   help='A renseigner uniquement pour les comptables.')
+    # dyn_buyergroupid = fields.Char(string='Numéro du comptable dans Dynamics',
+    #                                required=False,
+    #                                track_visibility='onchange',
+    #                                help='A renseigner uniquement pour les comptables.')
 
     mon_dyn_buyergroupid = fields.Char(string='Numéro de mon comptable dans Dynamics',
                                        required=False,
