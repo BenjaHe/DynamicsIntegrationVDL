@@ -26,23 +26,29 @@ class Purchase(models.Model):
     # Indicateur qui dit si le Purchase Order peut-être poussé dans Dynamics car il ne faut pas pousser
     # automatiquement les PO qu sont générés par le système pour réapprovisionner le stock !
     # --> il faut attendre que l'Economat donne son go une fois que le PO est suffisamment rempli.
-    dyn_liberer = fields.Boolean(compute='_compute_liberer', string="Peut être poussé vers Dynamics")
+    dyn_liberer = fields.Boolean(
+        string="Peut être poussé vers Dynamics",
+    )
 
+    @api.model
+    def create(self, vals):
+        purchase = super(Purchase, self).create(vals)
+        if not purchase.partner_id.fournisseur_economat:
+            purchase.action_liberer()
+        return purchase
 
-
-    # Méthode qui définit la valeur de dyn_liberer
-    # @api.multi
-    # @api.depends('fournisseur_economat')
-    # def _compute_liberer(self):
-    #     for rec in self:
-    #         if self.fournisseur_economat : False
-    #         return True
-    #
-    #         else self.fournisseur_economat : True
-    #         return False
-
-
-        # ajout changement du tag quand clic sur bouton (à créer) mais ! qu'il ne faut pas retomber sur la tag d'origine (=fournisseur_economat)
+    @api.multi
+    def action_liberer(self):
+        for po in self:
+            if not po.dyn_liberer:
+                vals = {
+                    'dyn_liberer': True,
+                }
+                po.write(vals)
+            else:
+                msg = "Commande déjà libérée"
+                po.message_post(body=msg)
+        return True
 
     def export_to_dynamics(self):
         values = {'test': True}

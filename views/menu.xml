@@ -3,7 +3,7 @@
     <data>
 
         <menuitem id="menu_po_line_stage"
-
+                  parent="purchase.menu_purchase_config"
           name="Line stage"
           action="action_po_line_stage"
           sequence="5"/>
