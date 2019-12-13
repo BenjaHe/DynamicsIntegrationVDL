@@ -24,6 +24,7 @@
     'data': [
         'views/account_tax.xml',
         'views/purchase_order_line_stage.xml',
+        'views/purchase_order.xml',
         'views/menu.xml',
         'datas/purchase_order_line_stage.xml',
              ],
