@@ -58,15 +58,45 @@ class PurchaseOrderline(models.Model):
                 line.order_id.message_post(body=msg)
         return True
 
+    def _find_stage_from_dyn_state(self, dyn_state):
+        stage = self.env['purchase.order.line.stage'].search(
+            ['dyn_status', '=', dyn_state])
+        return stage
+
+    @api.multi
+    def _write_sanitized_value(self, vals):
+        dyn_state = vals.get('dyn_state', False)
+        if dyn_state:
+            # chercher le 'purchase.order.line.stage' correspondant au
+            # 'dyn_state'
+            stage = self.env['purchase.order.line.stage'].search([
+                ('dyn_status', '=', dyn_state),
+            ], limit=1)
+            if stage:
+                vals['stage_id'] = stage.id
+            else:
+                msg = u"dyn_state: {name} n'est pas paramètré dans les " \
+                      u"'line stages'".format(name=dyn_state)
+                self.order_id.message_post(body=msg)
+        self.write(vals)
+
+    @api.model
     def export_to_dynamics(self):
         values = {'test': True}
         domain = []
         return values
 
-    def import_from_dynamics(self, values):
+    @api.model
+    def import_from_dynamics(self,values):
         result = True
-        try:
-            pass
-        except:
-            result = False
+        lines = self.env['purchase.order.line']
+        for k, v in values.iteritems():
+            try:
+                id = int(k)
+                line = self.browse(id)
+                lines += line
+                line._write_sanitized_value(v)
+            except:
+                result = False
+        lines.mapped('order_id').update_state_from_dyn()
         return result

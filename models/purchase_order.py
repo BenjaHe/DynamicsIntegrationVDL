@@ -51,6 +51,14 @@ class Purchase(models.Model):
                 po.state = 'sent'
         return True
 
+    @api.multi
+    def update_state_from_dyn(self):
+        for order in self:
+            to_state = order.mapped('order_line.stage_id.po_state')
+            if len(to_state) == 1:
+                #TODO: update le state
+                pass
+
     @api.depends('order_line', 'order_line.dyn_liberer')
     def _compute_dyn_liberer(self):
         for po in self:

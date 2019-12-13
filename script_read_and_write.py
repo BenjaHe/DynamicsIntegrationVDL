@@ -86,8 +86,9 @@ class CsvToOdooToCsv(object):
 
     def write_odoo(self, model_name, dico):
         model_obj = self.odoo_connect.env[model_name]
-        for k, v in dico.iteritems():
-            model_obj.write([k], v)
+        # for k, v in dico.iteritems():
+        #     model_obj.import_from_dynamics([k], v)
+        model_obj.import_from_dynamics(dico)
 
 
 if __name__ == "__main__":
