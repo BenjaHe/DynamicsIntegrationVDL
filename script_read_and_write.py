@@ -29,6 +29,11 @@ class CsvToOdooToCsv(object):
         self.password = 'taivoN78'
         self.host = "192.168.232.47"
         self.port = 8069
+        # self.db = 'Liege_stock'
+        # self.username = 'admin'
+        # self.password = 'admin'
+        # self.host = "localhost"
+        # self.port = 9769
         self.odoo_connect = self.connect()
         self.file_path = argvs[2]
         self.separator = argvs[3]
@@ -73,7 +78,8 @@ class CsvToOdooToCsv(object):
         model_obj = self.odoo_connect.env[model_name]
         delay = date.today() - timedelta(days=200)
         delay = '{}'.format(delay)
-
+        # TODO: Adapter le domaine de la méthode search pour synchroniser les
+        #  bonne Pucharse order line (POL libérées et sans réponse de Dynamics
         object_ids = model_obj.browse(model_obj.search([('create_date','>=',delay),('fournisseur_economat','=',False)]))
         lines = []
         lines.append([x[1] for x in self.columns_mapping])
