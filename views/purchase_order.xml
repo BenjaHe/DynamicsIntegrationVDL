@@ -7,6 +7,14 @@
           <field name="model">purchase.order</field>
           <field name="inherit_id" ref="stockVDL.purchase_order_form_inherited"/>
           <field name="arch" type="xml">
+              <xpath expr="//header" position="after">
+                <div class="alert alert-warning" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('dyn_update_state_error_message', '==', False)]}">
+                    <label for="dyn_update_state_error_message" />
+                    <div id="dyn_update_state_error_message_div">
+                        <field name="dyn_update_state_error_message"/>
+                    </div>
+                </div>
+            </xpath>
               <xpath expr="//button[@name='action_to_validation_1']" position="attributes">
                   <attribute name="invisible">1</attribute>
               </xpath>
@@ -24,6 +32,11 @@
               <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
                   <field name="dyn_liberer" readonly="True" groups="base.group_no_one"/>
                   <field name="stage_id" readonly="True" groups="base.group_no_one"/>
+              </xpath>
+              <xpath expr="//field[@name='order_line']/form/sheet/group/group[2]" position="inside">
+                  <field name="dyn_liberer" readonly="True" groups="base.group_no_one"/>
+                  <field name="stage_id" readonly="True" groups="base.group_no_one"/>
+                  <field name="dyn_state" readonly="True" groups="base.group_no_one"/>
               </xpath>
           </field>
       </record>

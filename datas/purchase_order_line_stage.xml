@@ -13,6 +13,36 @@
             <field name="dyn_status">odoo_pending</field>
             <field name="po_state">draft</field>
         </record>
+
+        <record id="purchase_order_line_stage_draft" model="purchase.order.line.stage">
+            <field name="name">Brouillon</field>
+            <field name="dyn_status">None</field>
+            <field name="po_state">draft</field>
+        </record>
+
+        <record id="purchase_order_line_stage_backorder" model="purchase.order.line.stage">
+            <field name="name">Bon de commande créé</field>
+            <field name="dyn_status">Backorder</field>
+            <field name="po_state">draft</field>
+        </record>
+
+        <record id="purchase_order_line_stage_received" model="purchase.order.line.stage">
+            <field name="name">Commande reçue par le fournisseur</field>
+            <field name="dyn_status">Received</field>
+            <field name="po_state">purchase</field>
+        </record>
+
+        <record id="purchase_order_line_stage_invoiced" model="purchase.order.line.stage">
+            <field name="name">En cours de livraison</field>
+            <field name="dyn_status">Invoiced</field>
+            <field name="po_state">purchase</field>
+        </record>
+
+        <record id="purchase_order_line_stage_canceled" model="purchase.order.line.stage">
+            <field name="name">Annulé</field>
+            <field name="dyn_status">Canceled</field>
+            <field name="po_state">cancel</field>
+        </record>
     </data>
 </openerp>
 

@@ -21,16 +21,23 @@ class PurchaseOrderline(models.Model):
     #                                   string="Champs TaxGroup issu de Dynamics",
     #                                   required=False)
 
-    dyn_state = fields.Selection([('None', 'Brouillon'),
-                                  ('Backorder', 'Bon de commande créé'),
-                                  ('Received',
-                                   'Commande reçue par le fournisseur'),
-                                  ('Invoiced', 'En cours de livraison'),
-                                  ('Canceled', 'Annulé')],
-                                 string='Statut Dynamics de la ligne',
-                                 default='None',
-                                 store=True,
-                                 track_visibility='onchange')
+    # dyn_state = fields.Selection([('None', 'Brouillon'),
+    #                               ('Backorder', 'Bon de commande créé'),
+    #                               ('Received',
+    #                                'Commande reçue par le fournisseur'),
+    #                               ('Invoiced', 'En cours de livraison'),
+    #                               ('Canceled', 'Annulé')],
+    #                              string='Statut Dynamics de la ligne',
+    #                              default='None',
+    #                              store=True,
+    #                              track_visibility='onchange')
+    # Field char to store the state from Dynamic even if dynamics return an
+    # state unkonwn by odoo
+    dyn_state = fields.Char(
+        string='Statut Dynamics de la ligne',
+        track_visibility='onchange',
+        translate=True,
+    )
 
     dyn_purchid = fields.Integer(string="Champs PurchID dans Dynamics",
                                  required=False)
@@ -46,6 +53,13 @@ class PurchaseOrderline(models.Model):
             [('dyn_status', '=', 'odoo_no_sync')], limit=1),
         track_visibility='onchange',
     )
+
+    @api.model
+    def create(self, vals):
+        line = super(PurchaseOrderline, self).create(vals)
+        if not line.order_id.partner_id.fournisseur_economat:
+            line.order_id.action_liberer()
+        return line
 
     @api.multi
     def action_line_liberer(self):
