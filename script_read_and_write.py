@@ -147,5 +147,6 @@ if __name__ == "__main__":
         if action == 'push':
             dico = instance.read_csv()
             instance.write_odoo('purchase.order.line', dico)
+        LOGGER.info(u"Bonne fin du process. Coucou ;) ")
     except Exception, e:
         LOGGER.error(u"Script Error\nError info : {e}".format(e=e))
