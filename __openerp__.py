@@ -16,7 +16,7 @@
     'website': "",
 
     'category': 'Uncategorized',
-    'version': '1.0',
+    'version': '9.0.1.0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base','stockVDL'],
