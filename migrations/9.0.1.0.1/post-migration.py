@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 def auto_liberer_purchase_order(cr):
     env = api.Environment(cr, SUPERUSER_ID, {})
     domain = [
-        ('state', 'not in', ('purchase', 'done', 'cancel')),
+        ('state', 'in', ['draft', 'sent', 'validation_1', 'to approve']),
         ('fournisseur_economat', '=', False),
     ]
     orders = env['purchase.order'].search(domain)
