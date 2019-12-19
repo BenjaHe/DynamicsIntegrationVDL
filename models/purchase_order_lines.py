@@ -66,8 +66,7 @@ class PurchaseOrderline(models.Model):
         pending_sync_status = self.env['purchase.order.line.stage'].search(
             [('dyn_status', '=', 'odoo_pending')], limit=1)
         for line in self:
-            if not line.dyn_liberer and line.stage_id and \
-                    line.stage_id.dyn_status in ('odoo_no_sync', 'odoo_pending'):
+            if not line.dyn_liberer:
                 vals = {
                     'stage_id': pending_sync_status.id,
                     'dyn_liberer': True,
