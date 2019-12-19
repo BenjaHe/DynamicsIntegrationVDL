@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+  <data>
+      <!-- VUE FICHE CONTACT -->
+      <record id="view_form_addons_partner_dyn_inherited" model="ir.ui.view">
+          <field name="name">Addons Contacts Dyn Form</field>
+          <field name="model">res.partner</field>
+          <field name="inherit_id" ref="base.view_partner_form"/>
+          <field name="arch" type="xml">
+
+            <field name="website" position="after">
+                <field name="dyn_buyergroupid" string="dyn_buyergroupid"/>
+                <field name="mon_dyn_buyergroupid" string="mon_dyn_buyergroupid" widget="many2many_tags"/>
+                <field name="dyn_orderaccount" string="dyn_orderaccount"/>
+            </field>
+
+          </field>
+      </record>
+  </data>
+</openerp>

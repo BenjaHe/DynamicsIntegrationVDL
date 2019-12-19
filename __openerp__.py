@@ -27,6 +27,7 @@
         'views/purchase_order.xml',
         'views/menu.xml',
         'datas/purchase_order_line_stage.xml',
+        'views/res_partner.xml'
              ],
 
 }
