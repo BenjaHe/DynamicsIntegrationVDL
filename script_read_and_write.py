@@ -13,13 +13,13 @@
 
 import logging, logging.handlers
 import sys
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 import odoorpc
 
 LOGNAME = "odoo_dynamics_script"
 #LOGFILE = "/Users/benja/workspace/Projects/Liege_stock/odoo_dynamics_script.log"
-LOGFILE = "/Users/benja/workspace/Projects/Liege_stock/odoo_dynamics_script.log"
+LOGFILE = "/var/log/dynamics_odoo_script/doo_dynamics_script.log"
 LOGLEVEL = logging.INFO
 
 
@@ -62,14 +62,17 @@ class CsvToOdooToCsv(object):
         # self.host = "localhost"
         # self.port = 9769
         self.odoo_connect = self.connect()
-        self.file_path = argvs[2]
-        self.separator = argvs[3]
-        self.columns_mapping = [('id', 'PurchLineID'),
-                                ('order_id', 'PurchID'),
+        self.file_path = argvs[2] # c'est le 2° paramètre défini dans le script qu'on appel : /home/exemple.csv ; (à savoir le /home/...)
+        self.file_path += "_"+datetime.now().strftime("%m-%d-%Y_%H:%M:%S")+".csv"
+        self.separator = argvs[3] # c'est le 3° paramètre défini dans le script qu'on appel : /home/exemple.csv ; (à savoir le ;)
+        self.columns_mapping = [('id', 'Odoo_PurchLineID'),
+                                ('order_id', 'Odoo_PurchID'),
                                 ('display_name', 'ExternalitemID'),
                                 ('product_qty', 'PurchQty'),
                                 ('price_unit', 'PurchPrice'),
-                                ('price_tax', 'PurchpriceVAT'),]
+                                ('price_tax', 'PurchpriceVAT'),
+                                ('dyn_taxgroup_id', 'TaxGroup'),
+                                ('dyn_taxitemgroup_id', 'TaxItemGroup')]
 
     def connect(self):
         odoo = odoorpc.ODOO(host=self.host, port=self.port)
@@ -110,7 +113,7 @@ class CsvToOdooToCsv(object):
         delay = '{}'.format(delay)
         # TODO: Adapter le domaine de la méthode search pour synchroniser les
         #  bonne Pucharse order line (POL libérées et sans réponse de Dynamics
-        object_ids = model_obj.browse(model_obj.search([('create_date','>=',delay),('dyn_liberer','=',False)]))
+        object_ids = model_obj.browse(model_obj.search([('create_date','>=',delay),('dyn_liberer','=',True), ('dyn_state','=',False)]))
         lines = []
         lines.append([x[1] for x in self.columns_mapping])
         for obj in object_ids:
@@ -147,5 +150,6 @@ if __name__ == "__main__":
         if action == 'push':
             dico = instance.read_csv()
             instance.write_odoo('purchase.order.line', dico)
+        LOGGER.info(u"Bonne fin du process. Coucou ;) ")
     except Exception, e:
         LOGGER.error(u"Script Error\nError info : {e}".format(e=e))
