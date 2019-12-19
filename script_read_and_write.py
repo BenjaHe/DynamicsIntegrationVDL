@@ -111,7 +111,7 @@ class CsvToOdooToCsv(object):
         delay = '{}'.format(delay)
         # TODO: Adapter le domaine de la méthode search pour synchroniser les
         #  bonne Pucharse order line (POL libérées et sans réponse de Dynamics
-        object_ids = model_obj.browse(model_obj.search([('create_date','>=',delay),('dyn_liberer','=',True)]))
+        object_ids = model_obj.browse(model_obj.search([('create_date','>=',delay),('dyn_liberer','=',True), ('dyn_state','=',False)]))
         lines = []
         lines.append([x[1] for x in self.columns_mapping])
         for obj in object_ids:

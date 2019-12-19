@@ -14,7 +14,7 @@ class AccountTax(models.Model):
 
     # Id de la taxe - taxitemgroup - de l'article dans Microsoft Dyn (utilisé pour pousser les commandes dans Dyn)
     dyn_taxitemgroup = fields.Char(
-        string="Champs TaxGroup issu de Dynamics",
+        string="Champs TaxItemGroup issu de Dynamics",
         required=False,
     )
 
