@@ -11,13 +11,40 @@
 # Ici, on utilise odoorpc donc on ne doit pas définir ce qu'on donne comme exemple sur le site d'Odoo pour les API
 # On ne fait que read
 
-import logging
+import logging, logging.handlers
 import sys
 from datetime import date, timedelta
 
 import odoorpc
 
-_logger = logging.getLogger(__name__)
+LOGNAME = "odoo_dynamics_script"
+#LOGFILE = "/Users/benja/workspace/Projects/Liege_stock/odoo_dynamics_script.log"
+LOGFILE = "/Users/benja/workspace/Projects/Liege_stock/odoo_dynamics_script.log"
+LOGLEVEL = logging.INFO
+
+
+def openlog(logger, logfile, stdout=False):
+    'Opens rotating log file'
+    log = logging.getLogger(logger)
+    hdlr_file = logging.handlers.RotatingFileHandler(logfile, 'a', 1024 * 1024 * 2, 3)
+    formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s] %(message)s')
+
+    hdlr_file.setFormatter(formatter)
+
+    log.addHandler(hdlr_file)
+    if stdout:
+        hdlr_stdout = logging.StreamHandler(sys.stdout)
+        hdlr_stdout.setFormatter(formatter)
+        log.addHandler(hdlr_stdout)
+
+    return log
+
+
+LOGGER = openlog(LOGNAME, LOGFILE, False)
+LOGGER.setLevel(LOGLEVEL)
+# Now you can use LOGGER.info("This info")
+# Now you can use LOGGER.warning("This info")
+# Now you can use LOGGER.error("This info")
 
 
 class CsvToOdooToCsv(object):
@@ -80,7 +107,7 @@ class CsvToOdooToCsv(object):
         delay = '{}'.format(delay)
         # TODO: Adapter le domaine de la méthode search pour synchroniser les
         #  bonne Pucharse order line (POL libérées et sans réponse de Dynamics
-        object_ids = model_obj.browse(model_obj.search([('create_date','>=',delay),('fournisseur_economat','=',False)]))
+        object_ids = model_obj.browse(model_obj.search([('create_date','>=',delay),('dyn_liberer','=',False)]))
         lines = []
         lines.append([x[1] for x in self.columns_mapping])
         for obj in object_ids:
@@ -98,12 +125,17 @@ class CsvToOdooToCsv(object):
 
 
 if __name__ == "__main__":
-    argvs = sys.argv
-    instance = CsvToOdooToCsv(argvs)
-    action = argvs[1]
-    if action == 'get':
-        lines = instance.read_odoo('purchase.order.line')
-        instance.write_csv(lines)
-    if action == 'push':
-        dico = instance.read_csv()
-        instance.write_odoo('purchase.order.line', dico)
+    try:
+        argvs = sys.argv
+        LOGGER.info(u"Script de synchro entre odoo/dynamics.\nparams: {argvs}"
+                    .format(argvs=argvs))
+        instance = CsvToOdooToCsv(argvs)
+        action = argvs[1]
+        if action == 'get':
+            lines = instance.read_odoo('purchase.order.line')
+            instance.write_csv(lines)
+        if action == 'push':
+            dico = instance.read_csv()
+            instance.write_odoo('purchase.order.line', dico)
+    except Exception, e:
+        LOGGER.error(u"Script Error\nError info : {e}".format(e=e))
