@@ -65,12 +65,14 @@ class CsvToOdooToCsv(object):
         self.file_path = argvs[2] # c'est le 2° paramètre défini dans le script qu'on appel : /home/exemple.csv ; (à savoir le /home/...)
         self.file_path += "_"+datetime.now().strftime("%m-%d-%Y_%H:%M:%S")+".csv"
         self.separator = argvs[3] # c'est le 3° paramètre défini dans le script qu'on appel : /home/exemple.csv ; (à savoir le ;)
-        self.columns_mapping = [('id', 'PurchLineID'),
-                                ('order_id', 'PurchID'),
+        self.columns_mapping = [('id', 'Odoo_PurchLineID'),
+                                ('order_id', 'Odoo_PurchID'),
                                 ('display_name', 'ExternalitemID'),
                                 ('product_qty', 'PurchQty'),
                                 ('price_unit', 'PurchPrice'),
-                                ('price_tax', 'PurchpriceVAT'),]
+                                ('price_tax', 'PurchpriceVAT'),
+                                ('dyn_taxgroup_id', 'TaxGroup'),
+                                ('dyn_taxitemgroup_id', 'TaxItemGroup')]
 
     def connect(self):
         odoo = odoorpc.ODOO(host=self.host, port=self.port)
