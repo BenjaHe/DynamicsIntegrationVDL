@@ -32,6 +32,7 @@
               <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
                   <field name="dyn_liberer" readonly="True" groups="base.group_no_one"/>
                   <field name="stage_id" readonly="True" groups="base.group_no_one"/>
+                  <field name="dyn_state" readonly="True" groups="base.group_no_one"/>
               </xpath>
               <xpath expr="//field[@name='order_line']/form/sheet/group/group[2]" position="inside">
                   <field name="dyn_liberer" readonly="True" groups="base.group_no_one"/>
