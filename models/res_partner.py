@@ -14,10 +14,10 @@ class ResPartner(models.Model):
                                    track_visibility='onchange',
                                    help='A renseigner uniquement pour les comptables.')
 
-    mon_dyn_buyergroupid = fields.Char(string='Numéro de mon comptable dans Dynamics',
-                                       required=False,
-                                       related='comptable.dyn_buyergroupid',
-                                       help='Le numéro du comptable dans Dynamics qui m est renseigné.')
+    # mon_dyn_buyergroupid = fields.Char(string='Numéro de mon comptable dans Dynamics',
+    #                                    required=False,
+    #                                    related='comptable.dyn_buyergroupid',
+    #                                    help='Le numéro du comptable dans Dynamics qui m est renseigné.')
 
     dyn_orderaccount = fields.Char(string='Numéro du fournisseur dans Dynamics',
                                    required=False,
