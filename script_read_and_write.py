@@ -73,7 +73,11 @@ class CsvToOdooToCsv(object):
                                 ('price_tax', 'PurchpriceVAT'),
                                 ('dyn_taxgroup_id', 'TaxGroup'),
                                 ('dyn_taxitemgroup_id', 'TaxItemGroup'),
-                                ('dyn_orderaccount_id', 'Orderaccount_id')]
+                                ('dyn_orderaccount_id', 'Orderaccount_id'),
+                                ('dyn_buyergroupid', 'Buyergroup_id'),
+                                ('mon_dyn_buyergroupid', 'Buyergroup_name'),
+                                ('dyn_orderaccount', 'orderaccount')
+                                ]
 
     def connect(self):
         odoo = odoorpc.ODOO(host=self.host, port=self.port)
