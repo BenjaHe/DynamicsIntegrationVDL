@@ -65,11 +65,11 @@ class CsvToOdooToCsv(object):
         self.file_path = argvs[2]
         self.separator = argvs[3]
         self.columns_mapping = [('id', 'PurchLineID'),
+                                ('order_id', 'PurchID'),
                                 ('display_name', 'ExternalitemID'),
                                 ('product_qty', 'PurchQty'),
                                 ('price_unit', 'PurchPrice'),
-                                ('price_tax', 'PurchpriceVAT'),
-                                ('taxcode', 'TaxCode')]
+                                ('price_tax', 'PurchpriceVAT'),]
 
     def connect(self):
         odoo = odoorpc.ODOO(host=self.host, port=self.port)
@@ -102,6 +102,9 @@ class CsvToOdooToCsv(object):
         f.close()
 
     def read_odoo(self, model_name):
+        # caratcères que nous ne pouvons pas accepter dans les celulles pour
+        # l'export
+        char_to_strip = "\n;"
         model_obj = self.odoo_connect.env[model_name]
         delay = date.today() - timedelta(days=200)
         delay = '{}'.format(delay)
@@ -113,7 +116,14 @@ class CsvToOdooToCsv(object):
         for obj in object_ids:
             row = []
             for col in self.columns_mapping:
-                row.append(u'{}'.format(obj[col[0]]))
+                # la fonction strip enlève les carractères interdit dans les
+                # cellules
+                value = obj[col[0]]
+                if hasattr(value, '_name'):
+                    value = value.id
+                if isinstance(value, basestring):
+                    value = value.strip(char_to_strip)
+                row.append(u'{}'.format(value))
             lines.append(row)
         return lines
 
