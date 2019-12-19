@@ -19,7 +19,7 @@ import odoorpc
 
 LOGNAME = "odoo_dynamics_script"
 #LOGFILE = "/Users/benja/workspace/Projects/Liege_stock/odoo_dynamics_script.log"
-LOGFILE = "/Users/benja/workspace/Projects/Liege_stock/odoo_dynamics_script.log"
+LOGFILE = "/var/log/dynamics_odoo_script/doo_dynamics_script.log"
 LOGLEVEL = logging.INFO
 
 
@@ -62,8 +62,8 @@ class CsvToOdooToCsv(object):
         # self.host = "localhost"
         # self.port = 9769
         self.odoo_connect = self.connect()
-        self.file_path = argvs[2]
-        self.separator = argvs[3]
+        self.file_path = argvs[2] # c'est le 2° paramètre défini dans le script qu'on appel : /home/exemple.csv ; (à savoir le /home/...)
+        self.separator = argvs[3] # c'est le 3° paramètre défini dans le script qu'on appel : /home/exemple.csv ; (à savoir le ;)
         self.columns_mapping = [('id', 'PurchLineID'),
                                 ('order_id', 'PurchID'),
                                 ('display_name', 'ExternalitemID'),
