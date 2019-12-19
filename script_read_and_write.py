@@ -13,7 +13,7 @@
 
 import logging, logging.handlers
 import sys
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 import odoorpc
 
